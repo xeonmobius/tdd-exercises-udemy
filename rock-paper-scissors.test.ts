@@ -1,102 +1,89 @@
 import { Move, Outcome, createRockPaperScissors } from "./rock-paper-scissors";
+import { describe, test, expect } from "@jest/globals";
+
 describe("rock-paper-scissors", () => {
   describe("Player chooses paper", () => {
-    test("given Player move paper and opponent move rock should return player wins", () => {
-      // Arrange
+    test.each([
+      {
+        playerMove: Move.Paper,
+        opponentMove: Move.Paper,
+        expected: Outcome.Draw,
+      },
+      {
+        playerMove: Move.Paper,
+        opponentMove: Move.Rock,
+        expected: Outcome.Win,
+      },
+      {
+        playerMove: Move.Paper,
+        opponentMove: Move.Scissors,
+        expected: Outcome.Loss,
+      },
+    ])(`Playermove: $playerMove, opponentMove: $opponentMove`, ({ playerMove, opponentMove, expected }) => {
+      //Arrange
       const sut = createRockPaperScissors();
 
-      // Act
-      const actual = sut.play(Move.Paper, Move.Rock);
+      //Act
+      const actual = sut.play(playerMove, opponentMove);
 
-      // Assert
-      expect(actual).toBe(Outcome.Win);
-    });
-
-    test("given Player move paper and opponent move scissors should return player loses", () => {
-      // Arrange
-      const sut = createRockPaperScissors();
-
-      // Act
-      const actual = sut.play(Move.Paper, Move.Scissors);
-
-      // Assert
-      expect(actual).toBe(Outcome.Loss);
-    });
-    test("given Player move paper and opponent move paper should return player draw", () => {
-      // Arrange
-      const sut = createRockPaperScissors();
-
-      // Act
-      const actual = sut.play(Move.Paper, Move.Paper);
-
-      // Assert
-      expect(actual).toBe(Outcome.Draw);
+      //Assert
+      expect(actual).toBe(expected);
     });
   }),
     describe("Player chooses rock", () => {
-      test("given Player move rock and opponent move rock should return player draw", () => {
-        // Arrange
+      test.each([
+        {
+          playerMove: Move.Rock,
+          opponentMove: Move.Paper,
+          expected: Outcome.Loss,
+        },
+        {
+          playerMove: Move.Rock,
+          opponentMove: Move.Rock,
+          expected: Outcome.Draw,
+        },
+        {
+          playerMove: Move.Rock,
+          opponentMove: Move.Scissors,
+          expected: Outcome.Win,
+        },
+      ])("test", ({ playerMove, opponentMove, expected }) => {
+        //Arrange
         const sut = createRockPaperScissors();
 
-        // Act
-        const actual = sut.play(Move.Rock, Move.Rock);
+        //Act
+        const actual = sut.play(playerMove, opponentMove);
 
-        // Assert
-        expect(actual).toBe(Outcome.Draw);
+        //Assert
+        expect(actual).toBe(expected);
       });
-      test("given Player move rock and opponent move scissors should return player win", () => {
-        // Arrange
-        const sut = createRockPaperScissors();
-
-        // Act
-        const actual = sut.play(Move.Rock, Move.Scissors);
-
-        // Assert
-        expect(actual).toBe(Outcome.Win);
-      });
-      test("given Player move rock and opponent move paper should return player loss", () => {
-        // Arrange
-        const sut = createRockPaperScissors();
-
-        // Act
-        const actual = sut.play(Move.Rock, Move.Paper);
-
-        // Assert
-        expect(actual).toBe(Outcome.Loss);
-      });
-   
     }),
     describe("Player chooses Scissors", () => {
-        test("given Player move rock and opponent move rock should return player loss", () => {
-          // Arrange
-          const sut = createRockPaperScissors();
-  
-          // Act
-          const actual = sut.play(Move.Scissors, Move.Rock);
-  
-          // Assert
-          expect(actual).toBe(Outcome.Loss);
-        });
-        test("given Player move rock and opponent move scissors should return player draw", () => {
-          // Arrange
-          const sut = createRockPaperScissors();
-  
-          // Act
-          const actual = sut.play(Move.Scissors, Move.Scissors);
-  
-          // Assert
-          expect(actual).toBe(Outcome.Draw);
-        });
-        test("given Player move rock and opponent move paper should return player loss", () => {
-          // Arrange
-          const sut = createRockPaperScissors();
-  
-          // Act
-          const actual = sut.play(Move.Scissors, Move.Paper);
-  
-          // Assert
-          expect(actual).toBe(Outcome.Win);
-        });
-     
+      test.each([
+        {
+          playerMove: Move.Scissors,
+          opponentMove: Move.Paper,
+          expected: Outcome.Win,
+        },
+        {
+          playerMove: Move.Scissors,
+          opponentMove: Move.Rock,
+          expected: Outcome.Loss,
+        },
+        {
+          playerMove: Move.Scissors,
+          opponentMove: Move.Scissors,
+          expected: Outcome.Draw,
+        },
+      ])("test", ({ playerMove, opponentMove, expected }) => {
+        //Arrange
+        const sut = createRockPaperScissors();
+
+        //Act
+        const actual = sut.play(playerMove, opponentMove);
+
+        //Assert
+        expect(actual).toBe(expected);
       });
+    });
 });
